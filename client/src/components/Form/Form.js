@@ -9,10 +9,12 @@ import { createPost } from "../../actions/posts.js";
 const Form = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createPost(postData));
   };
+
   const clear = () => {
     setPostData({
       creator: "",
@@ -22,6 +24,7 @@ const Form = () => {
       selectedFile: "",
     });
   };
+
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -29,6 +32,7 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+
   return (
     <>
       <Paper className={classes.paper}>
