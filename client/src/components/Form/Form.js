@@ -1,21 +1,47 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "../Form/styles.js";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts.js";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts.js";
+import { useSnackbar } from "notistack";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
+  console.log("Props in Form.js : ", { currentId, setCurrentId });
   const classes = useStyles();
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id == currentId) : null
+  );
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, []);
+
+  const isFormValid = (data) => {
+    const required = ["creator", "title", "message", "tags", "selectedFile"];
+    return required.every((field) => data[field]?.trim());
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+
+    if (!isFormValid(postData)) {
+      enqueueSnackbar("⚠️ Please fill in all the fields before submitting!", {
+        variant: "warning",
+      });
+      return;
+    }
+
+    currentId
+      ? dispatch(updatePost(currentId, postData))
+      : dispatch(createPost(postData));
   };
 
   const clear = () => {
+    setCurrentId(null);
     setPostData({
       creator: "",
       title: "",
