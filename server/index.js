@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -14,14 +17,11 @@ app.use(cors());
 // Real Routes
 app.use("/posts", postRoutes);
 
-const CONNECTION_URL =
-  "mongodb+srv://viraatshrivastava0700:plBk7hXLGUiQNr7f@memories.jnpjvfe.mongodb.net/memories?retryWrites=true&w=majority";
-
 const PORT = process.env.PORT || 8080;
 
 const startServer = async () => {
   try {
-    await mongoose.connect(CONNECTION_URL);
+    await mongoose.connect(process.env.CONNECTION_URL);
     console.log("✅ MongoDB connected");
     app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);

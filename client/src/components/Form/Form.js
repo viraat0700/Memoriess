@@ -5,39 +5,30 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts.js";
-import { useSnackbar } from "notistack";
 
 const Form = ({ currentId, setCurrentId }) => {
   console.log("Props in Form.js : ", { currentId, setCurrentId });
   const classes = useStyles();
+
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id == currentId) : null
   );
+
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (post) setPostData(post);
-  }, []);
-
-  const isFormValid = (data) => {
-    const required = ["creator", "title", "message", "tags", "selectedFile"];
-    return required.every((field) => data[field]?.trim());
-  };
+  }, [post]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isFormValid(postData)) {
-      enqueueSnackbar("⚠️ Please fill in all the fields before submitting!", {
-        variant: "warning",
-      });
-      return;
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
     }
-
-    currentId
-      ? dispatch(updatePost(currentId, postData))
-      : dispatch(createPost(postData));
+    clear();
   };
 
   const clear = () => {
@@ -64,11 +55,13 @@ const Form = ({ currentId, setCurrentId }) => {
       <Paper className={classes.paper}>
         <form
           autoComplete="off"
-          className={`${classes.root} ${classes.form}`}
           noValidate
+          className={`${classes.root} ${classes.form}`}
           onSubmit={handleSubmit}
         >
-          <Typography variant="h6">Creating a Memories</Typography>
+          <Typography variant="h6">
+            {currentId ? "Editing" : "Creating"} a Memories
+          </Typography>
           {/* TextField */}
           <TextField
             name="creator"
@@ -95,6 +88,8 @@ const Form = ({ currentId, setCurrentId }) => {
             variant="outlined"
             label="Message"
             fullWidth
+            multiline
+            rows={4}
             value={postData.message}
             onChange={(e) =>
               setPostData({ ...postData, message: e.target.value })
@@ -106,7 +101,9 @@ const Form = ({ currentId, setCurrentId }) => {
             label="Tags"
             fullWidth
             value={postData.tags}
-            onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+            onChange={(e) =>
+              setPostData({ ...postData, tags: e.target.value.split(",") })
+            }
           />
           <div className={classes.fileInput}>
             <FileBase
