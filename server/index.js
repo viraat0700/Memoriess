@@ -17,11 +17,20 @@ app.use(cors());
 // Real Routes
 app.use("/posts", postRoutes);
 
+app.get("/",(req,res) => {
+  res.send("Welcome to Memories API");
+})
+
 const PORT = process.env.PORT || 8080;
+
+console.log("Connection URL from .ENV file : ", process.env.CONNECTION_URL);
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.CONNECTION_URL);
+    await mongoose.connect(process.env.CONNECTION_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("✅ MongoDB connected");
     app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
