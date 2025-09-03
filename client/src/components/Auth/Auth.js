@@ -10,18 +10,51 @@ import React, { useState } from "react";
 import useStyles from "./styles.js";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input.js";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSignUp,setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const handleSubmit = () => {};
   const handleChange = () => {};
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
   const switchMode = () => {
-    setIsSignUp((prevIsSignUp) => !prevIsSignUp)
+    setIsSignUp((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
+  };
+
+  const googleSuccess = (credentialResponse) => {
+    try {
+      console.log("Response from file Name Auth.js : ", credentialResponse);
+      const decoded = jwtDecode(credentialResponse.credential);
+      console.log("Google User : ", decoded);
+      const result = {
+        email: decoded.email,
+        name: decoded.name,
+        givenName: decoded.given_name,
+        familyName: decoded.family_name,
+        imageURL: decoded.picture,
+        googleId: decoded.sub,
+      };
+
+      const token = credentialResponse.credential;
+
+      console.log("result : ", result);
+      console.log("token : ", token);
+      dispatch({ type: "AUTH", data: { result, token } });
+      console.log("Google login success : ", result);
+    } catch (error) {
+      console.log("Google Login error : ", error);
+    }
+  };
+
+  const googleFailure = () => {
+    console.log("Google Sign In was unsuccessful. Try again later.");
   };
 
   return (
@@ -81,6 +114,11 @@ const Auth = () => {
           >
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
+          <GoogleLogin
+            className={classes.googleButton}
+            onSuccess={googleSuccess}
+            onError={googleFailure}
+          />
           <Grid container justify="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
