@@ -13,12 +13,15 @@ import Input from "./Input.js";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
+
   const handleSubmit = () => {};
   const handleChange = () => {};
   const handleShowPassword = () =>
@@ -30,9 +33,15 @@ const Auth = () => {
 
   const googleSuccess = (credentialResponse) => {
     try {
-      console.log("Response from file Name Auth.js : ", credentialResponse);
+      console.log(
+        "Response from file path components/Auth/Auth.js : ",
+        credentialResponse
+      );
       const decoded = jwtDecode(credentialResponse.credential);
-      console.log("Google User : ", decoded);
+      console.log(
+        "Google User from file path components/Auth/Auth.js : ",
+        decoded
+      );
       const result = {
         email: decoded.email,
         name: decoded.name,
@@ -44,10 +53,14 @@ const Auth = () => {
 
       const token = credentialResponse.credential;
 
-      console.log("result : ", result);
-      console.log("token : ", token);
+      console.log("result from file path components/Auth/Auth.js : : ", result);
+      console.log("token from file path components/Auth/Auth.js : : ", token);
       dispatch({ type: "AUTH", data: { result, token } });
-      console.log("Google login success : ", result);
+      console.log(
+        "Google login success from file path components/Auth/Auth.js : ",
+        result
+      );
+      history.push("/");
     } catch (error) {
       console.log("Google Login error : ", error);
     }
