@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
+import userRoutes from "./routes/users.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,10 +17,11 @@ app.use(cors());
 
 // Real Routes
 app.use("/posts", postRoutes);
+app.use("/user", userRoutes);
 
-app.get("/",(req,res) => {
+app.get("/", (req, res) => {
   res.send("Welcome to Memories API");
-})
+});
 
 const PORT = process.env.PORT || 8080;
 
