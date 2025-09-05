@@ -39,9 +39,9 @@ const Auth = () => {
       formData
     );
     if (isSignUp) {
-      dispatch(signIn(formData, history));
-    } else {
       dispatch(signUp(formData, history));
+    } else {
+      dispatch(signIn(formData, history));
     }
   };
 
@@ -55,7 +55,7 @@ const Auth = () => {
 
   const switchMode = () => {
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   const googleSuccess = (credentialResponse) => {
