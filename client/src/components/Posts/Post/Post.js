@@ -17,7 +17,10 @@ import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts.js";
 
 const Post = ({ post, setCurrentId }) => {
-  console.log("Component-> Posts -> Post -> Post.js -> logging single post ->  ", post);
+  console.log(
+    "Component-> Posts -> Post -> Post.js -> logging single post ->  ",
+    post
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -29,7 +32,7 @@ const Post = ({ post, setCurrentId }) => {
         title={post.title}
       />
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>

@@ -9,10 +9,14 @@ import {
 
 export const getPosts = () => async (dispatch) => {
   try {
+    console.log("getPosts triggered file Path: client/src/actions/posts.js");
     const { data } = await api.fetchPosts();
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
-    console.log("ACTION -> posts.js -> getPosts(Error) : ", error.message);
+    console.log(
+      "getPosts giving error file path client/src/actions/posts.js : ",
+      error.message
+    );
   }
 };
 
@@ -53,4 +57,3 @@ export const likePost = (id) => async (dispatch) => {
     console.log(error);
   }
 };
-
