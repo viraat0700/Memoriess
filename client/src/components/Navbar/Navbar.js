@@ -4,7 +4,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import useStyles from "./styles.js";
 import { useDispatch } from "react-redux";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
   const classes = useStyles();
