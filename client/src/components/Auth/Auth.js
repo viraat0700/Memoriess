@@ -34,10 +34,6 @@ const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      "Form submitted file path components/Auth/Auth.js : ",
-      formData
-    );
     if (isSignUp) {
       dispatch(signUp(formData, history));
     } else {
@@ -46,7 +42,6 @@ const Auth = () => {
   };
 
   const handleChange = (e) => {
-    console.log("handleChange triggered");
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -60,15 +55,7 @@ const Auth = () => {
 
   const googleSuccess = (credentialResponse) => {
     try {
-      console.log(
-        "Response from file path components/Auth/Auth.js : ",
-        credentialResponse
-      );
       const decoded = jwtDecode(credentialResponse.credential);
-      console.log(
-        "Google User from file path components/Auth/Auth.js : ",
-        decoded
-      );
       const result = {
         email: decoded.email,
         name: decoded.name,
@@ -80,16 +67,10 @@ const Auth = () => {
 
       const token = credentialResponse.credential;
 
-      console.log("result from file path components/Auth/Auth.js : : ", result);
-      console.log("token from file path components/Auth/Auth.js : : ", token);
       dispatch({ type: "AUTH", data: { result, token } });
-      console.log(
-        "Google login success from file path components/Auth/Auth.js : ",
-        result
-      );
       history.push("/");
     } catch (error) {
-      console.log("Google Login error : ", error);
+      console.log(error);
     }
   };
 

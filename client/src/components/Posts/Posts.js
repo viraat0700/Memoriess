@@ -7,7 +7,6 @@ import { CircularProgress, Grid } from "@material-ui/core";
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
   const posts = useSelector((state) => state.posts);
-  console.log("SRC -> Components -> Posts -> Posts.js: POST(DATA) : ", posts);
   return !posts.length ? (
     <CircularProgress />
   ) : (
@@ -19,10 +18,10 @@ const Posts = ({ setCurrentId }) => {
     >
       {posts.map((post) => {
         return (
-        <Grid key={post._id} item xs={12} sm={6}>
-          <Post post={post} setCurrentId={setCurrentId} />
-        </Grid>
-        )
+          <Grid key={post._id} item xs={12} sm={6}>
+            <Post post={post} setCurrentId={setCurrentId} />
+          </Grid>
+        );
       })}
     </Grid>
   );

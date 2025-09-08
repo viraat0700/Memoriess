@@ -18,13 +18,12 @@ import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts.js";
 
 const Post = ({ post, setCurrentId }) => {
-  console.log(
-    "Component-> Posts -> Post -> Post.js -> logging single post ->  ",
-    post
-  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  console.log("Post User:", user);
+  console.log("Post Data:", post);
 
   const Likes = () => {
     if (post.likes.length > 0) {
@@ -68,17 +67,20 @@ const Post = ({ post, setCurrentId }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(post._id);
-          }}
-        >
-          <MoreHorizIcon fontSize="default" />
-        </Button>
-      </div>
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?._id === post?.creator) && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(post._id);
+            }}
+          >
+            <MoreHorizIcon fontSize="default" />
+          </Button>
+        </div>
+      )}
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
           {post.tags.map((tag) => `#${tag} `)}
@@ -103,7 +105,6 @@ const Post = ({ post, setCurrentId }) => {
           color="primary"
           disabled={!user?.result}
           onClick={() => {
-            console.log("Like button clicked and id of the post is ", post._id);
             dispatch(likePost(post._id));
           }}
         >

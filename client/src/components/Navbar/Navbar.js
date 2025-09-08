@@ -4,13 +4,12 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import useStyles from "./styles.js";
 import { useDispatch } from "react-redux";
+import {jwtDecode} from "jwt-decode";
 
 const Navbar = () => {
   const classes = useStyles();
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-
-  console.log("User from file components/Navbar/Navbar.js : ", user);
 
   const history = useHistory();
 
@@ -26,6 +25,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = user?.token;
+
+    if (token) {
+      const decodedToken = jwtDecode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts.js";
 
 const Form = ({ currentId, setCurrentId }) => {
-  console.log("Props in Form.js : ", { currentId, setCurrentId });
 
   const user = JSON.parse(localStorage.getItem("profile"));
 

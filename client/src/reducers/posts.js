@@ -16,7 +16,6 @@ export default (posts = [], action) => {
       return [...posts, action.payload];
     case UPDATE:
     case LIKE:
-      console.log("Reducer updating like: ", action.payload);
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );

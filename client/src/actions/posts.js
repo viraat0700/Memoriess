@@ -9,25 +9,20 @@ import {
 
 export const getPosts = () => async (dispatch) => {
   try {
-    console.log("getPosts triggered file Path: client/src/actions/posts.js");
     const { data } = await api.fetchPosts();
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
-    console.log(
-      "getPosts giving error file path client/src/actions/posts.js : ",
-      error.message
-    );
+    console.log(error);
   }
 };
 
 export const createPost = (post) => async (dispatch) => {
-  console.log("ACTIONS -> posts.js -> Post in createPost : ", post);
+  console.log(post);
   try {
     const { data } = await api.createPost(post);
-    console.log("ACTIONS -> posts.js -> createPost : ", data);
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    console.log("ACTIONS -> post.js -> createPost(Error) : ", error);
+    console.log(error);
   }
 };
 
@@ -51,7 +46,6 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const likePost = (id) => async (dispatch) => {
   try {
-    console.log("likePost action triggered file Path: client/src/actions/posts.js");
     const { data } = await api.likePost(id);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
