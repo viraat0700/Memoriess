@@ -8,7 +8,7 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import { getPosts } from "../../actions/posts.js";
+import { getPosts, getPostsBySearch } from "../../actions/posts.js";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
@@ -52,8 +52,10 @@ const Home = () => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
 
   const searchPost = () => {
-    if (search.trim()) {
+    if (search.trim() || tags) {
       // dispatch -> fetch searched post
+      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      history.push(`/posts/search?searchQuery=${search || none}&tags=${tags.join(",")}`);
     } else {
       history.push("/");
     }
