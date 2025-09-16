@@ -33,6 +33,7 @@ const Home = () => {
 
 
   const page = query.get("page") || 1;
+  console.log("Page:", page);
   const searchQuery = query.get("searchQuery");
 
 
