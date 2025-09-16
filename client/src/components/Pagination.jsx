@@ -2,8 +2,12 @@ import React from "react";
 import useStyles from "./styles.js";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 import { Link } from "react-router-dom";
-const Paginate = () => {
+import { useDispatch, useSeletor } from 'react-redux';
+const Paginate = ({ page }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  
+
   return (
     <>
       <Pagination

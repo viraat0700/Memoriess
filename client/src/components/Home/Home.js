@@ -23,21 +23,22 @@ function useQuery() {
 
 const Home = () => {
   const classes = useStyles();
+  const query = useQuery();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [search, setSearch] = useState("");
   const [currentId, setCurrentId] = useState(null);
   const [tags, setTags] = useState([]);
 
-  const query = useQuery();
-  const history = useHistory();
 
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(getPosts());
+  // }, [currentId, dispatch]);
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -107,7 +108,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper className={classes.pagination} elevation={6}>
-              <Pagination />
+              <Pagination page={page} />
             </Paper>
           </Grid>
         </Grid>
