@@ -6,7 +6,6 @@ import { CircularProgress, Grid } from "@material-ui/core";
 
 const Posts = ({ setCurrentId }) => {
   const { posts, isLoading } = useSelector((state) => state.posts);
-  console.log("Posts in File Path COMP -> Posts -> Posts.js", posts);
   const classes = useStyles();
   if (!posts.length && !isLoading) return "No Posts Available";
   return (
